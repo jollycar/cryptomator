@@ -1,15 +1,6 @@
 package org.cryptomator.ui.mainwindow;
 
-import javafx.beans.Observable;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.apache.commons.lang3.SystemUtils;
-import org.cryptomator.common.LicenseHolder;
 import org.cryptomator.common.settings.Settings;
 import org.cryptomator.common.vaults.Vault;
 import org.cryptomator.common.vaults.VaultListManager;
@@ -20,6 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 @MainWindowScoped
 public class MainWindowController implements FxController {
@@ -30,7 +28,6 @@ public class MainWindowController implements FxController {
 	private final ReadOnlyObjectProperty<Vault> selectedVault;
 	private final Settings settings;
 	private final FxApplicationWindows appWindows;
-	private final LicenseHolder licenseHolder;
 
 	@FXML
 	private StackPane root;
@@ -39,14 +36,11 @@ public class MainWindowController implements FxController {
 	public MainWindowController(@MainWindow Stage window, //
 								ObjectProperty<Vault> selectedVault, //
 								Settings settings, //
-								FxApplicationWindows appWindows, //
-								LicenseHolder licenseHolder) {
+								FxApplicationWindows appWindows) {
 		this.window = window;
 		this.selectedVault = selectedVault;
 		this.settings = settings;
 		this.appWindows = appWindows;
-		this.licenseHolder = licenseHolder;
-
 	}
 
 	@FXML
@@ -93,30 +87,12 @@ public class MainWindowController implements FxController {
 		appWindows.showPreferencesWindow(SelectedPreferencesTab.GENERAL);
 	}
 
-	@FXML
-	public void showContributePreferences() {
-		appWindows.showPreferencesWindow(SelectedPreferencesTab.CONTRIBUTE);
-	}
-
-	@FXML
-	public void showUpdatePreferences() {
-		appWindows.showPreferencesWindow(SelectedPreferencesTab.UPDATES);
-	}
-
 	public ReadOnlyBooleanProperty debugModeEnabledProperty() {
 		return settings.debugMode;
 	}
 
 	public boolean getDebugModeEnabled() {
 		return debugModeEnabledProperty().get();
-	}
-
-	public BooleanBinding licenseValidProperty(){
-		return licenseHolder.validLicenseProperty();
-	}
-
-	public boolean getLicenseValid() {
-		return licenseHolder.isValidLicense();
 	}
 
 }

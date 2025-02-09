@@ -36,14 +36,6 @@
 				<fx:include source="preferences_volume.fxml"/>
 			</content>
 		</Tab>
-		<Tab fx:id="contributeTab" id="CONTRIBUTE" text="%preferences.contribute">
-			<graphic>
-				<FontAwesome5IconView glyph="HEART"/>
-			</graphic>
-			<content>
-				<fx:include source="preferences_contribute.fxml"/>
-			</content>
-		</Tab>
 		<Tab fx:id="aboutTab" id="ABOUT" text="%preferences.about">
 			<graphic>
 				<FontAwesome5IconView glyph="INFO_CIRCLE"/>

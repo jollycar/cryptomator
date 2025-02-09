@@ -1,6 +1,5 @@
 package org.cryptomator.ui.fxapp;
 
-import org.cryptomator.common.LicenseHolder;
 import org.cryptomator.common.settings.Settings;
 import org.cryptomator.common.settings.UiTheme;
 import org.cryptomator.integrations.uiappearance.Theme;
@@ -24,15 +23,13 @@ public class FxApplicationStyle {
 
 	private final Settings settings;
 	private final Optional<UiAppearanceProvider> appearanceProvider;
-	private final LicenseHolder licenseHolder;
 	private final UiAppearanceListener systemInterfaceThemeListener = this::systemInterfaceThemeChanged;
 	private final ObjectProperty<Theme> appliedTheme = new SimpleObjectProperty<>(Theme.LIGHT);
 
 	@Inject
-	public FxApplicationStyle(Settings settings, Optional<UiAppearanceProvider> appearanceProvider, LicenseHolder licenseHolder) {
+	public FxApplicationStyle(Settings settings, Optional<UiAppearanceProvider> appearanceProvider) {
 		this.settings = settings;
 		this.appearanceProvider = appearanceProvider;
-		this.licenseHolder = licenseHolder;
 	}
 
 	public void initialize() {
@@ -52,8 +49,7 @@ public class FxApplicationStyle {
 	}
 
 	private void loadSelectedStyleSheet(UiTheme desiredTheme) {
-		UiTheme theme = licenseHolder.isValidLicense() ? desiredTheme : UiTheme.LIGHT;
-		switch (theme) {
+		switch (desiredTheme) {
 			case LIGHT -> applyLightTheme();
 			case DARK -> applyDarkTheme();
 			case AUTOMATIC -> {

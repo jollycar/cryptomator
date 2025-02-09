@@ -22,16 +22,6 @@ public enum SelectedPreferencesTab {
 	VOLUME,
 
 	/**
-	 * Show updates tab
-	 */
-	UPDATES,
-
-	/**
-	 * Show contribute tab
-	 */
-	CONTRIBUTE,
-
-	/**
 	 * Show about tab
 	 */
 	ABOUT,

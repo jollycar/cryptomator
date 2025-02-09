@@ -25,8 +25,6 @@ public class PreferencesController implements FxController {
 	public Tab generalTab;
 	public Tab interfaceTab;
 	public Tab volumeTab;
-	public Tab updatesTab;
-	public Tab contributeTab;
 	public Tab aboutTab;
 
 	@Inject
@@ -41,9 +39,6 @@ public class PreferencesController implements FxController {
 		window.setOnShowing(this::windowWillAppear);
 		selectedTabProperty.addListener(observable -> this.selectChosenTab());
 		tabPane.getSelectionModel().selectedItemProperty().addListener(observable -> this.selectedTabChanged());
-		if (env.disableUpdateCheck()) {
-			tabPane.getTabs().remove(updatesTab);
-		}
 	}
 
 	private void selectChosenTab() {
@@ -56,8 +51,6 @@ public class PreferencesController implements FxController {
 			case GENERAL, ANY -> generalTab;
 			case INTERFACE -> interfaceTab;
 			case VOLUME -> volumeTab;
-			case UPDATES -> updatesTab;
-			case CONTRIBUTE -> contributeTab;
 			case ABOUT -> aboutTab;
 		};
 	}

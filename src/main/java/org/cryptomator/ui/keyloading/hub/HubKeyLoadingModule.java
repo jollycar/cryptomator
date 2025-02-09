@@ -99,13 +99,6 @@ public abstract class HubKeyLoadingModule {
 	}
 
 	@Provides
-	@FxmlScene(FxmlFile.HUB_INVALID_LICENSE)
-	@KeyLoadingScoped
-	static Scene provideInvalidLicenseScene(@KeyLoading FxmlLoaderFactory fxmlLoaders) {
-		return fxmlLoaders.createScene(FxmlFile.HUB_INVALID_LICENSE);
-	}
-
-	@Provides
 	@FxmlScene(FxmlFile.HUB_RECEIVE_KEY)
 	@KeyLoadingScoped
 	static Scene provideHubReceiveKeyScene(@KeyLoading FxmlLoaderFactory fxmlLoaders) {
@@ -177,11 +170,6 @@ public abstract class HubKeyLoadingModule {
 	@IntoMap
 	@FxControllerKey(AuthFlowController.class)
 	abstract FxController bindAuthFlowController(AuthFlowController controller);
-
-	@Binds
-	@IntoMap
-	@FxControllerKey(InvalidLicenseController.class)
-	abstract FxController bindInvalidLicenseController(InvalidLicenseController controller);
 
 	@Binds
 	@IntoMap

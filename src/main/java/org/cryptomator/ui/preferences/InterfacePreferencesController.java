@@ -1,6 +1,5 @@
 package org.cryptomator.ui.preferences;
 
-import org.cryptomator.common.LicenseHolder;
 import org.cryptomator.common.settings.Settings;
 import org.cryptomator.common.settings.UiTheme;
 import org.cryptomator.launcher.SupportedLanguages;
@@ -32,7 +31,6 @@ public class InterfacePreferencesController implements FxController {
 	private final boolean trayMenuInitialized;
 	private final boolean trayMenuSupported;
 	private final ObjectProperty<SelectedPreferencesTab> selectedTabProperty;
-	private final LicenseHolder licenseHolder;
 	private final ResourceBundle resourceBundle;
 	private final SupportedLanguages supportedLanguages;
 	public ChoiceBox<UiTheme> themeChoiceBox;
@@ -44,12 +42,11 @@ public class InterfacePreferencesController implements FxController {
 	public RadioButton nodeOrientationRtl;
 
 	@Inject
-	InterfacePreferencesController(Settings settings, SupportedLanguages supportedLanguages, TrayMenuComponent trayMenu, ObjectProperty<SelectedPreferencesTab> selectedTabProperty, LicenseHolder licenseHolder, ResourceBundle resourceBundle) {
+	InterfacePreferencesController(Settings settings, SupportedLanguages supportedLanguages, TrayMenuComponent trayMenu, ObjectProperty<SelectedPreferencesTab> selectedTabProperty, ResourceBundle resourceBundle) {
 		this.settings = settings;
 		this.trayMenuInitialized = trayMenu.isInitialized();
 		this.trayMenuSupported = trayMenu.isSupported();
 		this.selectedTabProperty = selectedTabProperty;
-		this.licenseHolder = licenseHolder;
 		this.resourceBundle = resourceBundle;
 		this.supportedLanguages = supportedLanguages;
 	}
@@ -92,16 +89,6 @@ public class InterfacePreferencesController implements FxController {
 		} else {
 			LOG.warn("Unexpected toggle option {}", newValue);
 		}
-	}
-
-	public LicenseHolder getLicenseHolder() {
-		return licenseHolder;
-	}
-
-
-	@FXML
-	public void showContributeTab() {
-		selectedTabProperty.set(SelectedPreferencesTab.CONTRIBUTE);
 	}
 
 	/* Helper classes */
