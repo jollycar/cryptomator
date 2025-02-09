@@ -15,7 +15,6 @@ import org.cryptomator.ui.quit.QuitComponent;
 import org.cryptomator.ui.sharevault.ShareVaultComponent;
 import org.cryptomator.ui.unlock.UnlockComponent;
 import org.cryptomator.ui.unlock.UnlockWorkflow;
-import org.cryptomator.ui.updatereminder.UpdateReminderComponent;
 import org.cryptomator.ui.vaultoptions.SelectedVaultOptionsTab;
 import org.cryptomator.ui.vaultoptions.VaultOptionsComponent;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +47,6 @@ public class FxApplicationWindows {
 	private final Lazy<PreferencesComponent> preferencesWindow;
 	private final QuitComponent.Builder quitWindowBuilder;
 	private final UnlockComponent.Factory unlockWorkflowFactory;
-	private final UpdateReminderComponent.Factory updateReminderWindowFactory;
 	private final LockComponent.Factory lockWorkflowFactory;
 	private final ErrorComponent.Factory errorWindowFactory;
 	private final ExecutorService executor;
@@ -64,7 +62,6 @@ public class FxApplicationWindows {
 								Lazy<PreferencesComponent> preferencesWindow, //
 								QuitComponent.Builder quitWindowBuilder, //
 								UnlockComponent.Factory unlockWorkflowFactory, //
-								UpdateReminderComponent.Factory updateReminderWindowFactory, //
 								LockComponent.Factory lockWorkflowFactory, //
 								ErrorComponent.Factory errorWindowFactory, //
 								VaultOptionsComponent.Factory vaultOptionsWindow, //
@@ -77,7 +74,6 @@ public class FxApplicationWindows {
 		this.preferencesWindow = preferencesWindow;
 		this.quitWindowBuilder = quitWindowBuilder;
 		this.unlockWorkflowFactory = unlockWorkflowFactory;
-		this.updateReminderWindowFactory = updateReminderWindowFactory;
 		this.lockWorkflowFactory = lockWorkflowFactory;
 		this.errorWindowFactory = errorWindowFactory;
 		this.executor = executor;
@@ -140,10 +136,6 @@ public class FxApplicationWindows {
 
 	public void showQuitWindow(QuitResponse response, boolean forced) {
 			CompletableFuture.runAsync(() -> quitWindowBuilder.build().showQuitWindow(response,forced), Platform::runLater);
-	}
-
-	public void showUpdateReminderWindow() {
-		CompletableFuture.runAsync(() -> updateReminderWindowFactory.create().showUpdateReminderWindow(), Platform::runLater);
 	}
 
 	public void showDokanySupportEndWindow() {

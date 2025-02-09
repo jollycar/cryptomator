@@ -16,7 +16,6 @@ import org.cryptomator.ui.quit.QuitComponent;
 import org.cryptomator.ui.sharevault.ShareVaultComponent;
 import org.cryptomator.ui.traymenu.TrayMenuComponent;
 import org.cryptomator.ui.unlock.UnlockComponent;
-import org.cryptomator.ui.updatereminder.UpdateReminderComponent;
 import org.cryptomator.ui.vaultoptions.VaultOptionsComponent;
 
 import javafx.scene.image.Image;
@@ -32,7 +31,6 @@ import java.io.InputStream;
 		QuitComponent.class, //
 		ErrorComponent.class, //
 		HealthCheckComponent.class, //
-		UpdateReminderComponent.class, //
 		ShareVaultComponent.class})
 abstract class FxApplicationModule {
 

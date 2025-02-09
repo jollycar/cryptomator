@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javafx.application.Platform;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @FxApplicationScoped
@@ -73,14 +71,6 @@ public class FxApplication {
 			LOG.error("Failed to show main window", error);
 			return null;
 		});
-
-		var time14DaysAgo = Instant.now().minus(Duration.ofDays(14));
-		if (!environment.disableUpdateCheck() //
-				&& !settings.checkForUpdates.getValue() //
-				&& settings.lastSuccessfulUpdateCheck.get().isBefore(time14DaysAgo) //
-				&& settings.lastUpdateCheckReminder.get().isBefore(time14DaysAgo)) {
-			appWindows.showUpdateReminderWindow();
-		}
 
 		migrateAndInformDokanyRemoval();
 

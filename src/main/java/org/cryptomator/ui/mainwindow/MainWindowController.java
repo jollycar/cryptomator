@@ -15,7 +15,6 @@ import org.cryptomator.common.vaults.Vault;
 import org.cryptomator.common.vaults.VaultListManager;
 import org.cryptomator.ui.common.FxController;
 import org.cryptomator.ui.fxapp.FxApplicationWindows;
-import org.cryptomator.ui.fxapp.UpdateChecker;
 import org.cryptomator.ui.preferences.SelectedPreferencesTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,6 @@ public class MainWindowController implements FxController {
 	private final ReadOnlyObjectProperty<Vault> selectedVault;
 	private final Settings settings;
 	private final FxApplicationWindows appWindows;
-	private final BooleanBinding updateAvailable;
 	private final LicenseHolder licenseHolder;
 
 	@FXML
@@ -42,15 +40,12 @@ public class MainWindowController implements FxController {
 								ObjectProperty<Vault> selectedVault, //
 								Settings settings, //
 								FxApplicationWindows appWindows, //
-								UpdateChecker updateChecker, //
 								LicenseHolder licenseHolder) {
 		this.window = window;
 		this.selectedVault = selectedVault;
 		this.settings = settings;
 		this.appWindows = appWindows;
-		this.updateAvailable = updateChecker.updateAvailableProperty();
 		this.licenseHolder = licenseHolder;
-		updateChecker.automaticallyCheckForUpdatesIfEnabled();
 
 	}
 
@@ -114,14 +109,6 @@ public class MainWindowController implements FxController {
 
 	public boolean getDebugModeEnabled() {
 		return debugModeEnabledProperty().get();
-	}
-
-	public BooleanBinding updateAvailableProperty() {
-		return updateAvailable;
-	}
-
-	public boolean getUpdateAvailable() {
-		return updateAvailable.get();
 	}
 
 	public BooleanBinding licenseValidProperty(){

@@ -46,7 +46,6 @@ public enum FxmlFile {
 	RECOVERYKEY_SUCCESS("/fxml/recoverykey_success.fxml"), //
 	SHARE_VAULT("/fxml/share_vault.fxml"), //
 	SIMPLE_DIALOG("/fxml/simple_dialog.fxml"), //
-	UPDATE_REMINDER("/fxml/update_reminder.fxml"), //
 	UNLOCK_ENTER_PASSWORD("/fxml/unlock_enter_password.fxml"),
 	UNLOCK_REQUIRES_RESTART("/fxml/unlock_requires_restart.fxml"), //
 	UNLOCK_INVALID_MOUNT_POINT("/fxml/unlock_invalid_mount_point.fxml"), //

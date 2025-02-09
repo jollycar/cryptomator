@@ -71,11 +71,6 @@ abstract class PreferencesModule {
 
 	@Binds
 	@IntoMap
-	@FxControllerKey(UpdatesPreferencesController.class)
-	abstract FxController bindUpdatesPreferencesController(UpdatesPreferencesController controller);
-
-	@Binds
-	@IntoMap
 	@FxControllerKey(VolumePreferencesController.class)
 	abstract FxController bindVolumePreferencesController(VolumePreferencesController controller);
 

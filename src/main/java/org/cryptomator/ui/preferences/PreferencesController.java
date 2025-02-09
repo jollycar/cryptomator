@@ -2,12 +2,10 @@ package org.cryptomator.ui.preferences;
 
 import org.cryptomator.common.Environment;
 import org.cryptomator.ui.common.FxController;
-import org.cryptomator.ui.fxapp.UpdateChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -23,7 +21,6 @@ public class PreferencesController implements FxController {
 	private final Environment env;
 	private final Stage window;
 	private final ObjectProperty<SelectedPreferencesTab> selectedTabProperty;
-	private final BooleanBinding updateAvailable;
 	public TabPane tabPane;
 	public Tab generalTab;
 	public Tab interfaceTab;
@@ -33,11 +30,10 @@ public class PreferencesController implements FxController {
 	public Tab aboutTab;
 
 	@Inject
-	public PreferencesController(Environment env, @PreferencesWindow Stage window, ObjectProperty<SelectedPreferencesTab> selectedTabProperty, UpdateChecker updateChecker) {
+	public PreferencesController(Environment env, @PreferencesWindow Stage window, ObjectProperty<SelectedPreferencesTab> selectedTabProperty) {
 		this.env = env;
 		this.window = window;
 		this.selectedTabProperty = selectedTabProperty;
-		this.updateAvailable = updateChecker.updateAvailableProperty();
 	}
 
 	@FXML
@@ -57,13 +53,12 @@ public class PreferencesController implements FxController {
 
 	private Tab getTabToSelect(SelectedPreferencesTab selectedTab) {
 		return switch (selectedTab) {
-			case GENERAL -> generalTab;
+			case GENERAL, ANY -> generalTab;
 			case INTERFACE -> interfaceTab;
 			case VOLUME -> volumeTab;
 			case UPDATES -> updatesTab;
 			case CONTRIBUTE -> contributeTab;
 			case ABOUT -> aboutTab;
-			case ANY -> updateAvailable.get() ? updatesTab : generalTab;
 		};
 	}
 
