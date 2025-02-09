@@ -15,6 +15,19 @@ Cryptomator is provided free of charge as an open-source project despite the hig
 - [One-time or recurring donation via Cryptomator's website.](https://cryptomator.org/#donate)
 - [Become a sponsor via Cryptomator's sponsors website.](https://cryptomator.org/sponsors/)
 
+## Modification in this fork
+
+Changes made:
+- Removed update checker completely
+- Removed contribute options and tabs
+- Removed hub functionality
+
+Why these changes?
+
+- I like to update on my own terms, not being forced by developers
+- I already contribute, so I don't need this reminder
+- I am not using HUB functionality
+
 ### Gold Sponsors
 
 Become our Gold Sponsor and showcase your brand to a targeted audience! Please contact us if you are interested.
