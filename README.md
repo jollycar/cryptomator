@@ -15,7 +15,7 @@ Cryptomator is provided free of charge as an open-source project despite the hig
 - [One-time or recurring donation via Cryptomator's website.](https://cryptomator.org/#donate)
 - [Become a sponsor via Cryptomator's sponsors website.](https://cryptomator.org/sponsors/)
 
-## Modification in this fork
+## Modifications in this fork
 
 Changes made:
 - Removed update checker completely
