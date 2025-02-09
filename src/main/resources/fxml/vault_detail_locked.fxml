@@ -29,11 +29,6 @@
 				<FontAwesome5IconView glyph="LOCK"/>
 			</graphic>
 		</Hyperlink>
-		<Button text="%main.vaultDetail.share" minWidth="120" onAction="#share">
-			<graphic>
-				<FontAwesome5IconView glyph="SHARE" glyphSize="15"/>
-			</graphic>
-		</Button>
 		<Region VBox.vgrow="ALWAYS"/>
 		<HBox alignment="BOTTOM_RIGHT">
 			<Button text="%main.vaultDetail.optionsBtn" minWidth="120" onAction="#showVaultOptions">

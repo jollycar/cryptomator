@@ -3,7 +3,6 @@ package org.cryptomator.ui.vaultoptions;
 import org.cryptomator.common.vaults.Vault;
 import org.cryptomator.common.vaults.VaultState;
 import org.cryptomator.ui.common.FxController;
-import org.cryptomator.ui.keyloading.hub.HubKeyLoadingStrategy;
 import org.cryptomator.ui.keyloading.masterkeyfile.MasterkeyFileLoadingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,6 @@ public class VaultOptionsController implements FxController {
 	public Tab generalTab;
 	public Tab mountTab;
 	public Tab keyTab;
-	public Tab hubTab;
 
 	@Inject
 	VaultOptionsController(@VaultOptionsWindow Stage window, @VaultOptionsWindow Vault vault, ObjectProperty<SelectedVaultOptionsTab> selectedTabProperty) {
@@ -46,9 +44,6 @@ public class VaultOptionsController implements FxController {
 		if(!vaultScheme.equals(MasterkeyFileLoadingStrategy.SCHEME)){
 			tabPane.getTabs().remove(keyTab);
 		}
-		if(!(vaultScheme.equals(HubKeyLoadingStrategy.SCHEME_HUB_HTTP) || vaultScheme.equals(HubKeyLoadingStrategy.SCHEME_HUB_HTTPS))){
-			tabPane.getTabs().remove(hubTab);
-		}
 
 		vault.stateProperty().addListener(observable -> {
 			tabPane.setDisable(vault.getState().equals(VaultState.Value.UNLOCKED));
@@ -65,7 +60,6 @@ public class VaultOptionsController implements FxController {
 			case ANY, GENERAL -> generalTab;
 			case MOUNT -> mountTab;
 			case KEY -> keyTab;
-			case HUB -> hubTab;
 		};
 	}
 
