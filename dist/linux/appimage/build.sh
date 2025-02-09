@@ -12,20 +12,25 @@ command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip not found."; exit 1; }
 
 VERSION=$(mvn -f ../../../pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)
 SEMVER_STR=${VERSION}
-CPU_ARCH=$(uname -p)
+CPU_ARCH=$(uname -m)
 
 if [[ ! "${CPU_ARCH}" =~ x86_64|aarch64 ]]; then echo "Platform ${CPU_ARCH} not supported"; exit 1; fi
 
 mvn -f ../../../pom.xml versions:set -DnewVersion=${SEMVER_STR}
+
+#cleanup
+rm -rf ./Cryptomator.AppDir
+rm -rf ./appdir
+rm -rf ./runtime
 
 # compile
 mvn -B -f ../../../pom.xml clean package -Plinux -DskipTests -Djavafx.platform=linux
 cp ../../../LICENSE.txt ../../../target
 cp ../../../target/cryptomator-*.jar ../../../target/mods
 
-JAVAFX_VERSION=22.0.2
+JAVAFX_VERSION=23.0.2
 JAVAFX_ARCH="x64"
-JAVAFX_JMODS_SHA256='2164bca470bf70a5e2764645e2078ba7f787b274e5be3d7df30d87c5bb62bba6'
+JAVAFX_JMODS_SHA256='063baebc6922e4a89c94b9dfb7a4f53e59e8d6fec400d4e670b31bc2ab324dec'
 if [ "${CPU_ARCH}" = "aarch64" ]; then
     JAVAFX_ARCH="aarch64"
     JAVAFX_JMODS_SHA256='09c92fa9fa0b82adefd88640a14ebb2a49e5f3f733a57d1542f5590d060ffe1b'
