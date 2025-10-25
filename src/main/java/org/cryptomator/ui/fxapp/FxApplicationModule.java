@@ -17,11 +17,15 @@ import org.cryptomator.ui.traymenu.TrayMenuComponent;
 import org.cryptomator.ui.unlock.UnlockComponent;
 import org.cryptomator.ui.vaultoptions.VaultOptionsComponent;
 
+import javax.inject.Named;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.io.InputStream;
 
 @Module(includes = {UpdateCheckerModule.class}, subcomponents = {TrayMenuComponent.class, //
+		DecryptNameComponent.class, //
 		MainWindowComponent.class, //
 		PreferencesComponent.class, //
 		VaultOptionsComponent.class, //
@@ -29,7 +33,8 @@ import java.io.InputStream;
 		LockComponent.class, //
 		QuitComponent.class, //
 		ErrorComponent.class, //
-		HealthCheckComponent.class})
+		HealthCheckComponent.class, //
+		EventViewComponent.class})
 abstract class FxApplicationModule {
 
 	private static Image createImageFromResource(String resourceName) throws IOException {
@@ -60,6 +65,12 @@ abstract class FxApplicationModule {
 	@FxApplicationScoped
 	static QuitComponent provideQuitComponent(QuitComponent.Builder builder) {
 		return builder.build();
+	}
+
+	@Provides
+	@FxApplicationScoped
+	static EventViewComponent provideEventViewComponent(EventViewComponent.Factory factory) {
+		return factory.create();
 	}
 
 }

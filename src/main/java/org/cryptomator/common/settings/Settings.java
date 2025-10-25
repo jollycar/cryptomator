@@ -25,6 +25,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.NodeOrientation;
+
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.function.Consumer;
 
@@ -44,7 +46,7 @@ public class Settings {
 	@Deprecated // to be changed to "whatever is available" eventually
 	static final String DEFAULT_KEYCHAIN_PROVIDER = SystemUtils.IS_OS_WINDOWS ? "org.cryptomator.windows.keychain.WindowsProtectedKeychainAccess" : //
 			SystemUtils.IS_OS_MAC ? "org.cryptomator.macos.keychain.MacSystemKeychainAccess" : //
-					"org.cryptomator.linux.keychain.SecretServiceKeychainAccess";
+					"org.cryptomator.linux.keychain.GnomeKeyringKeychainAccess";
 	static final String DEFAULT_QUICKACCESS_SERVICE = SystemUtils.IS_OS_WINDOWS ? "org.cryptomator.windows.quickaccess.ExplorerQuickAccessService" : //
 			SystemUtils.IS_OS_LINUX ? "org.cryptomator.linux.quickaccess.NautilusBookmarks" : null;
 
@@ -75,6 +77,7 @@ public class Settings {
 	public final BooleanProperty checkForUpdates;
 	public final ObjectProperty<Instant> lastUpdateCheckReminder;
 	public final ObjectProperty<Instant> lastSuccessfulUpdateCheck;
+	public final ObjectProperty<Path> previouslyUsedVaultDirectory;
 
 	private Consumer<Settings> saveCmd;
 
@@ -114,6 +117,7 @@ public class Settings {
 		this.checkForUpdates = new SimpleBooleanProperty(this, "checkForUpdates", json.checkForUpdatesEnabled);
 		this.lastUpdateCheckReminder = new SimpleObjectProperty<>(this, "lastUpdateCheckReminder", json.lastReminderForUpdateCheck);
 		this.lastSuccessfulUpdateCheck = new SimpleObjectProperty<>(this, "lastSuccessfulUpdateCheck", json.lastSuccessfulUpdateCheck);
+		this.previouslyUsedVaultDirectory = new SimpleObjectProperty<>(this, "previouslyUsedVaultDirectory", json.previouslyUsedVaultDirectory);
 
 		this.directories.addAll(json.directories.stream().map(VaultSettings::new).toList());
 
@@ -143,10 +147,16 @@ public class Settings {
 		checkForUpdates.addListener(this::somethingChanged);
 		lastUpdateCheckReminder.addListener(this::somethingChanged);
 		lastSuccessfulUpdateCheck.addListener(this::somethingChanged);
+		previouslyUsedVaultDirectory.addListener(this::somethingChanged);
 	}
 
 	@SuppressWarnings("deprecation")
 	private void migrateLegacySettings(SettingsJson json) {
+		// migrate renamed keychainAccess
+		if(this.keychainProvider.getValueSafe().equals("org.cryptomator.linux.keychain.SecretServiceKeychainAccess")) {
+			this.keychainProvider.setValue("org.cryptomator.linux.keychain.GnomeKeyringKeychainAccess");
+		}
+
 		// implicit migration of 1.6.x legacy setting "preferredVolumeImpl":
 		if (this.mountService.get() == null && json.preferredVolumeImpl != null) {
 			this.mountService.set(switch (json.preferredVolumeImpl) {
@@ -199,6 +209,7 @@ public class Settings {
 		json.checkForUpdatesEnabled = checkForUpdates.get();
 		json.lastReminderForUpdateCheck = lastUpdateCheckReminder.get();
 		json.lastSuccessfulUpdateCheck = lastSuccessfulUpdateCheck.get();
+		json.previouslyUsedVaultDirectory = previouslyUsedVaultDirectory.get();
 		return json;
 	}
 

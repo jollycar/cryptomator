@@ -40,8 +40,8 @@ public class VaultOptionsController implements FxController {
 		window.setOnShowing(this::windowWillAppear);
 		selectedTabProperty.addListener(observable -> this.selectChosenTab());
 		tabPane.getSelectionModel().selectedItemProperty().addListener(observable -> this.selectedTabChanged());
-		var vaultScheme = vault.getVaultConfigCache().getUnchecked().getKeyId().getScheme();
-		if(!vaultScheme.equals(MasterkeyFileLoadingStrategy.SCHEME)){
+		var vaultKeyLoader = vault.getVaultSettings().lastKnownKeyLoader.get();
+		if(!KeyLoadingStrategy.isMasterkeyFileVault(vaultKeyLoader)){
 			tabPane.getTabs().remove(keyTab);
 		}
 

@@ -15,6 +15,7 @@ import org.cryptomator.cryptofs.CryptoFileSystemProvider;
 import org.cryptomator.cryptofs.DirStructure;
 import org.cryptomator.cryptofs.migration.Migrators;
 import org.cryptomator.integrations.mount.MountService;
+import org.cryptomator.ui.keyloading.masterkeyfile.MasterkeyFileLoadingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -34,6 +36,7 @@ import static org.cryptomator.common.Constants.MASTERKEY_FILENAME;
 import static org.cryptomator.common.Constants.VAULTCONFIG_FILENAME;
 import static org.cryptomator.common.vaults.VaultState.Value.ERROR;
 import static org.cryptomator.common.vaults.VaultState.Value.LOCKED;
+import static org.cryptomator.common.vaults.VaultState.Value.NEEDS_MIGRATION;
 
 @Singleton
 public class VaultListManager {
@@ -49,9 +52,9 @@ public class VaultListManager {
 	@Inject
 	public VaultListManager(ObservableList<Vault> vaultList, //
 							AutoLocker autoLocker, //
-							List<MountService> mountServices,
-							VaultComponent.Factory vaultComponentFactory,
-							ResourceBundle resourceBundle,
+							List<MountService> mountServices, //
+							VaultComponent.Factory vaultComponentFactory, //
+							ResourceBundle resourceBundle, //
 							Settings settings) {
 		this.vaultList = vaultList;
 		this.autoLocker = autoLocker;
@@ -103,7 +106,7 @@ public class VaultListManager {
 		vaultList.addAll(vaults);
 	}
 
-	private Optional<Vault> get(Path vaultPath) {
+	public Optional<Vault> get(Path vaultPath) {
 		assert vaultPath.isAbsolute();
 		assert vaultPath.normalize().equals(vaultPath);
 		return vaultList.stream() //
@@ -117,6 +120,12 @@ public class VaultListManager {
 			var vaultState = determineVaultState(vaultSettings.path.get());
 			if (vaultState == LOCKED) { //for legacy reasons: pre v8 vault do not have a config, but they are in the NEEDS_MIGRATION state
 				wrapper.reloadConfig();
+				if (Objects.isNull(vaultSettings.lastKnownKeyLoader.get())) {
+					var keyIdScheme = wrapper.get().getKeyId().getScheme();
+					vaultSettings.lastKnownKeyLoader.set(keyIdScheme);
+				}
+			} else if (vaultState == NEEDS_MIGRATION) {
+				vaultSettings.lastKnownKeyLoader.set(MasterkeyFileLoadingStrategy.SCHEME);
 			}
 			return vaultComponentFactory.create(vaultSettings, wrapper, vaultState, null).vault();
 		} catch (IOException e) {

@@ -15,7 +15,7 @@ public class ReadMeGeneratorTest {
 	@ParameterizedTest
 	@CsvSource({ //
 			"test,test", //
-			"t\u00E4st,t\\u228st", //
+			"t\u00E4st,t\\'E4st", //
 			"t\uD83D\uDE09st,t\\u55357\\u56841st", //
 	})
 	public void testEscapeNonAsciiChars(String input, String expectedResult) {

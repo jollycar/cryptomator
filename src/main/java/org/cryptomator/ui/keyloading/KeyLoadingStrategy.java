@@ -3,6 +3,8 @@ package org.cryptomator.ui.keyloading;
 import org.cryptomator.cryptolib.api.Masterkey;
 import org.cryptomator.cryptolib.api.MasterkeyLoader;
 import org.cryptomator.cryptolib.api.MasterkeyLoadingFailedException;
+import org.cryptomator.ui.keyloading.hub.HubKeyLoadingStrategy;
+import org.cryptomator.ui.keyloading.masterkeyfile.MasterkeyFileLoadingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +29,34 @@ public interface KeyLoadingStrategy extends MasterkeyLoader {
 	 */
 	@Override
 	Masterkey loadKey(URI keyId) throws MasterkeyLoadingFailedException;
+
+	/**
+	 * Determines whether the provided key loader scheme corresponds to a Hub Vault.
+	 * <p>
+	 * This method compares the {@code keyLoader} parameter with the known Hub Vault schemes
+	 * {@link HubKeyLoadingStrategy#SCHEME_HUB_HTTP} and {@link HubKeyLoadingStrategy#SCHEME_HUB_HTTPS}.
+	 *
+	 * @param keyLoader A string representing the key loader scheme to be checked.
+	 * @return {@code true} if the given key loader scheme represents a Hub Vault; {@code false} otherwise.
+	 */
+	static boolean isHubVault(String keyLoader) {
+		return HubKeyLoadingStrategy.SCHEME_HUB_HTTP.equals(keyLoader) || HubKeyLoadingStrategy.SCHEME_HUB_HTTPS.equals(keyLoader);
+	}
+
+	/**
+	 * Determines whether the provided key loader scheme corresponds to a Masterkey File Vault.
+	 * <p>
+	 * This method checks if the {@code keyLoader} parameter starts with the known Masterkey File Vault scheme
+	 * {@link MasterkeyFileLoadingStrategy#SCHEME}.
+	 * This allows identifying not only exact matches but also variants or extended schemes based on the Masterkey scheme.
+	 * </p>
+	 *
+	 * @param keyLoader A string representing the key loader scheme to be checked.
+	 * @return {@code true} if the given key loader scheme starts with the Masterkey File Vault scheme; {@code false} otherwise.
+	 */
+	static boolean isMasterkeyFileVault(String keyLoader) {
+		return keyLoader.startsWith(MasterkeyFileLoadingStrategy.SCHEME);
+	}
 
 	/**
 	 * Allows the loader to try and recover from an exception thrown during the last attempt.
