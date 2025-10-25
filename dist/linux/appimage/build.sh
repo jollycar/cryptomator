@@ -18,6 +18,11 @@ if [[ ! "${CPU_ARCH}" =~ x86_64|aarch64 ]]; then echo "Platform ${CPU_ARCH} not 
 
 mvn -f ../../../pom.xml versions:set -DnewVersion=${SEMVER_STR}
 
+#cleanup
+rm -rf ./Cryptomator.AppDir
+rm -rf ./appdir
+rm -rf ./runtime
+
 # compile
 mvn -B -f ../../../pom.xml clean package -Plinux -DskipTests -Djavafx.platform=linux
 cp ../../../LICENSE.txt ../../../target

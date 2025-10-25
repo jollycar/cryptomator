@@ -7,7 +7,9 @@ package org.cryptomator.ui.fxapp;
 
 import dagger.Module;
 import dagger.Provides;
+import org.cryptomator.ui.decryptname.DecryptNameComponent;
 import org.cryptomator.ui.error.ErrorComponent;
+import org.cryptomator.ui.eventview.EventViewComponent;
 import org.cryptomator.ui.health.HealthCheckComponent;
 import org.cryptomator.ui.lock.LockComponent;
 import org.cryptomator.ui.mainwindow.MainWindowComponent;
@@ -17,9 +19,6 @@ import org.cryptomator.ui.traymenu.TrayMenuComponent;
 import org.cryptomator.ui.unlock.UnlockComponent;
 import org.cryptomator.ui.vaultoptions.VaultOptionsComponent;
 
-import javax.inject.Named;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.io.InputStream;
